@@ -1,6 +1,6 @@
 import { floatArg, nonNull, objectType, stringArg } from "nexus";
-import { NexusGenObjects } from "../../nexus-typegen";
 import { extendType } from "nexus";
+import { Product } from "../entities/Products";
 
 export const ProductType = objectType({
   name: "Product",
@@ -9,18 +9,18 @@ export const ProductType = objectType({
   },
 });
 
-let products: NexusGenObjects["Product"][] = [
-  { id: 1, name: "Apple", price: 1.99 },
-  { id: 2, name: "Orange", price: 2.99 },
-];
+// let products: NexusGenObjects["Product"][] = [
+//   { id: 1, name: "Apple", price: 1.99 },
+//   { id: 2, name: "Orange", price: 2.99 },
+// ];
 
 export const ProductsQuery = extendType({
   type: "Query",
   definition(t) {
     t.nonNull.list.nonNull.field("products", {
       type: "Product",
-      resolve(_parent, _args, _ctx, _info) {
-        return products;
+      resolve(_parent, _args, _ctx, _info) : Promise<Product[]> {
+        return Product.find();
       },
     });
   },
@@ -35,16 +35,10 @@ export const ProductMutation = extendType({
         name: nonNull(stringArg()),
         price: nonNull(floatArg()),
       },
-      resolve(_parent, args, _ctx, _info) {
+      resolve(_parent, args, _ctx, _info) : Promise<Product> {
         const { name, price } = args;
-        const product = {
-          id: products.length + 1,
-          name,
-          price,
-        };
-        products.push(product);
-        console.log(products);
-        return product;
+        return Product.create({ name, price }).save();
+        
       },
     });
   },
