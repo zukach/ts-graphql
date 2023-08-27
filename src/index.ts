@@ -6,7 +6,7 @@ const boot =  () => {
     schema,
   });
 
-  server.listen(5000).then(({ url }) => {
+  server.listen(5001).then(({ url }) => {
     console.log(`🚀 Server ready at ${url}`);
   });
 }
