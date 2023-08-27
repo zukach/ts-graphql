@@ -1,0 +1,21 @@
+{
+  "name": "ts-graphql",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch": "tsc -w",
+    "start": "nodemon dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "apollo-server": "^3.12.0",
+    "graphql": "^16.8.0",
+    "nexus": "^1.3.0"
+  }
+}
