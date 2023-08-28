@@ -28,6 +28,10 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  Auth: { // root type
+    token: string; // String!
+    user: NexusGenRootTypes['User']; // User!
+  }
   Mutation: {};
   Product: { // root type
     id: number; // Int!
@@ -35,6 +39,12 @@ export interface NexusGenObjects {
     price: number; // Float!
   }
   Query: {};
+  User: { // root type
+    email: string; // String!
+    id: number; // Int!
+    password: string; // String!
+    username: string; // String!
+  }
 }
 
 export interface NexusGenInterfaces {
@@ -48,8 +58,14 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
+  Auth: { // field return type
+    token: string; // String!
+    user: NexusGenRootTypes['User']; // User!
+  }
   Mutation: { // field return type
     createProduct: NexusGenRootTypes['Product']; // Product!
+    login: NexusGenRootTypes['Auth']; // Auth!
+    register: NexusGenRootTypes['Auth']; // Auth!
   }
   Product: { // field return type
     id: number; // Int!
@@ -59,11 +75,23 @@ export interface NexusGenFieldTypes {
   Query: { // field return type
     products: NexusGenRootTypes['Product'][]; // [Product!]!
   }
+  User: { // field return type
+    email: string; // String!
+    id: number; // Int!
+    password: string; // String!
+    username: string; // String!
+  }
 }
 
 export interface NexusGenFieldTypeNames {
+  Auth: { // field return type name
+    token: 'String'
+    user: 'User'
+  }
   Mutation: { // field return type name
     createProduct: 'Product'
+    login: 'Auth'
+    register: 'Auth'
   }
   Product: { // field return type name
     id: 'Int'
@@ -73,6 +101,12 @@ export interface NexusGenFieldTypeNames {
   Query: { // field return type name
     products: 'Product'
   }
+  User: { // field return type name
+    email: 'String'
+    id: 'Int'
+    password: 'String'
+    username: 'String'
+  }
 }
 
 export interface NexusGenArgTypes {
@@ -80,6 +114,15 @@ export interface NexusGenArgTypes {
     createProduct: { // args
       name: string; // String!
       price: number; // Float!
+    }
+    login: { // args
+      password: string; // String!
+      username: string; // String!
+    }
+    register: { // args
+      email: string; // String!
+      password: string; // String!
+      username: string; // String!
     }
   }
 }

@@ -2,8 +2,15 @@
 ### Do not make changes to this file directly
 
 
+type Auth {
+  token: String!
+  user: User!
+}
+
 type Mutation {
   createProduct(name: String!, price: Float!): Product!
+  login(password: String!, username: String!): Auth!
+  register(email: String!, password: String!, username: String!): Auth!
 }
 
 type Product {
@@ -14,4 +21,11 @@ type Product {
 
 type Query {
   products: [Product!]!
+}
+
+type User {
+  email: String!
+  id: Int!
+  password: String!
+  username: String!
 }
