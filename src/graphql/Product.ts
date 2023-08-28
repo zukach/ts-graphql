@@ -2,11 +2,21 @@ import { floatArg, nonNull, objectType, stringArg } from "nexus";
 import { extendType } from "nexus";
 import { Product } from "../entities/Products";
 import { Context } from "../types/Context";
+import { User } from "../entities/User";
 
 export const ProductType = objectType({
   name: "Product",
   definition(t) {
-    t.nonNull.int("id"), t.nonNull.string("name"), t.nonNull.float("price");
+    t.nonNull.int("id"),
+      t.nonNull.string("name"),
+      t.nonNull.float("price"),
+      t.nonNull.int("creatorId"),
+      t.nonNull.field("creator", {
+        type: "User",
+        resolve(parent, _args, _context: Context, _info): Promise<User | null> {
+          return User.findOne({ where: { id: parent.creatorId } });
+        },
+      });
   },
 });
 
@@ -38,10 +48,13 @@ export const ProductMutation = extendType({
         name: nonNull(stringArg()),
         price: nonNull(floatArg()),
       },
-      resolve(_parent, args, _ctx, _info) : Promise<Product> {
+      resolve(_parent, args, _ctx, _info): Promise<Product> {
         const { name, price } = args;
-        return Product.create({ name, price }).save();
-        
+        const { userId } = _ctx;
+
+        if (!userId) throw new Error("Not authenticated");
+
+        return Product.create({ name, price, creatorId: userId }).save();
       },
     });
   },

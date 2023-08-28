@@ -1,15 +1,23 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from "typeorm";
 import { User } from "./User";
 
 @Entity()
-export class Product extends BaseEntity{
+export class Product extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
   @Column()
   name!: string;
 
-  @Column({ type: "decimal"})
+  @Column({ type: "decimal" })
   price!: number;
 
   @Column()
@@ -23,4 +31,4 @@ export class Product extends BaseEntity{
 
   @UpdateDateColumn()
   updatedAt: Date;
-};
+}
